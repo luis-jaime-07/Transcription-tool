@@ -1,0 +1,36 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.custom-file-upload {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.custom-file-upload:hover {
+    background-color: #0056b3;
+}
+
+.transcription-box {
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 16px;
+    text-align: left;
+}
