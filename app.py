@@ -8,9 +8,9 @@ import datetime
 
 app = Flask(__name__, template_folder='templates')
 
-# Check for GPU availability
+# Load the 'base' model to reduce memory usage
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model = whisper.load_model("small").to(device)
+model = whisper.load_model("base").to(device)
 
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -76,6 +76,5 @@ def transcribe():
 
 if __name__ == "__main__":
     from waitress import serve
-    port = int(os.environ.get("PORT", 10000))  # Default to 10000 if not found
-    print(f"Starting server on port {port}")  # Debugging
+    port = int(os.environ.get("PORT", 10000))  # Use PORT environment variable if available
     serve(app, host="0.0.0.0", port=port)
