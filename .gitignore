@@ -1,0 +1,16 @@
+# Ignore audio files
+*.mp3
+*.wav
+*.flac
+*.aac
+*.ogg
+*.m4a
+
+# Ignore Python virtual environment
+venv/
+venv3.12/
+
+# Ignore temporary files
+__pycache__/
+*.log
+*.tmp
