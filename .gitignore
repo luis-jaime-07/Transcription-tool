@@ -9,3 +9,5 @@ google-cloud-sdk/
 uninstaller.exe
 install_mode
 cloud_env.bat
+venv/
+venv3.12/
