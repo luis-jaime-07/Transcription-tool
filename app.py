@@ -8,16 +8,20 @@ import datetime
 
 app = Flask(__name__, template_folder='templates')
 
-# Check for GPU availability
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model = whisper.load_model("small").to(device)
-
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB limit (adjust as needed)
 
 # Ensure upload folder exists
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+def get_model():
+    """Load Whisper model dynamically at runtime"""
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = whisper.load_model("small").to(device)
+    return model
+
 
 def convert_to_wav(input_path):
     """Convert any audio format to WAV"""
@@ -28,13 +32,16 @@ def convert_to_wav(input_path):
     audio.export(output_path, format="wav")
     return output_path
 
+
 def format_timestamp(seconds):
     """Convert seconds to HH:MM:SS format"""
     return str(datetime.timedelta(seconds=int(seconds))) if seconds else "00:00:00"
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
@@ -60,7 +67,8 @@ def transcribe():
     # Convert to WAV if necessary
     audio_path = convert_to_wav(input_path)
 
-    # Perform transcription
+    # Load model dynamically
+    model = get_model()
     result = model.transcribe(audio_path)
 
     # Format transcription with timestamps
@@ -81,6 +89,7 @@ def transcribe():
         'transcription': full_transcription.strip(),
         'translated_text': translated_text
     })
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Use PORT from environment variables (for Vercel)
